@@ -2,7 +2,8 @@ from datetime import timedelta, datetime
 import re
 
 
-def users_to_congratulate(n):
+def to_congratulate():
+    n = input('Please enter days left to the needed date: ')
     user_list = []
     user_date = datetime.now() + timedelta(days = n)
     search_pattern = user_date.day + '.' + user_date.month
@@ -12,9 +13,10 @@ def users_to_congratulate(n):
             if re.search(search_pattern, re.split(',',user)[3]):
                 user_list.append(re.split(',', user)[0].strip()) 
     result = '\n'.join(user_list)       
-    return f'Please do not forget to tell them happy birthday!\n{result}'
+    print(f'Please do not forget to tell them happy birthday!\n{result}')
 
-def user_search(user_name):
+def search():
+    user_name = input('Please, enter user name: ')
     user_list = []
     with open('data//data-file.txt', 'a') as file:
         users = file.readlines()
@@ -23,9 +25,10 @@ def user_search(user_name):
                 user_data = re.split(',', user)[0].strip() + re.split(',', user)[1].strip()
                 user_list.append(user_data)
     result = '\n'.join(user_list)
-    return f'Found some matches:\n{result}'
+    print(f'Found some matches:\n{result}')
 
-def note_search(key_word):
+def note():
+    key_word = input('Please, enter the key word for search: ')
     user_list = []
     with open('data//data-file.txt', 'a') as file:
         users = file.readlines()
@@ -34,7 +37,7 @@ def note_search(key_word):
                 user_data = re.split(',', user)[0].strip() + re.split(',', user)[-1].strip()
                 user_list.append(user_data)
     result = '\n'.join(user_list)
-    return f'Found some users with matching notes:\n{result}'
+    print(f'Found some users with matching notes:\n{result}')
 
             
 
