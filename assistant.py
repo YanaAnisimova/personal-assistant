@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+from datetime import timedelta, datetime
 
 
 
@@ -22,7 +23,7 @@ class Personal_asisstant:
         if command == 'create':
             consumer.to_create()
         elif command == 'search':
-            consumer.to_searche() 
+            consumer.to_search() 
         elif command == 'delete':
             consumer.to_delete()
         elif command == 'edit':
@@ -101,6 +102,65 @@ class Personal_asisstant:
     def exit(self):
         print("See ya!")
         sys.exit(0)  
+
+    @is_file_empty
+    def to_congratulate(self):
+        while True:
+            try:
+                n = input('Please enter days left to the needed date: ')
+                if n.isdigit:
+                    break
+            except ValueError:
+                print('Please enter a valid number!')
+        user_list = []
+        user_date = datetime.now() + timedelta(days = int(n))
+        search_pattern = datetime.strftime(user_date, '%d.%m')
+        with open('data//data-file.txt', 'r') as file:
+            users = file.readlines()
+            for user in users:
+                if re.search(search_pattern, re.split(r'\|',user)[3].strip()):
+                    user_data = ', '.join(re.split(r'\|', user))
+                    user_list.append(user_data) 
+        if len(user_list)>0:
+            result = ''.join(user_list)       
+            print(f'Please do not forget to tell them happy birthday!\n{result}')
+        else:
+            print('No congrats on this day!')
+
+    @is_file_empty
+    def to_search(self):
+        key_word = input('Please, enter the key word: ')
+        user_list = []
+        with open('data//data-file.txt', 'r') as file:
+            users = file.readlines()
+            for user in users:
+                if key_word.lower() in user.lower():
+                    user_data = ', '.join(re.split(r'\|', user))
+                    user_list.append(user_data)
+        if len(user_list)>0:
+            result = ''.join(user_list)
+            print(f'Found some users with matching key word "{key_word}":\n{result}')
+        else:
+            print('No matches!')
+
+    @is_file_empty
+    def to_show(self):
+        with open('data//data-file.txt', 'r') as file:
+            users = file.readlines() 
+            print('-'*119)   
+            header = "| {:^5} | {:^15} | {:^15} | {:^25} | {:^15} | {:^25} |".format('#', 'name', 'phone', 'e-mail', 'birthday', 'note') 
+            print(header)
+            print('-'*119)      
+            for user in enumerate(users):
+                count = user[0]
+                name = re.split(r'\|',user[1])[0].strip()
+                phone = re.split(r'\|',user[1])[1].strip()
+                e_mail = re.split(r'\|',user[1])[2].strip()
+                birthday = re.split(r'\|',user[1])[3].strip()
+                note = re.split(r'\|',user[1])[4].strip()
+                user_data = "| {:^5} | {:<15} | {:<15} | {:25} | {:<15} | {:<25} |".format(count, name, phone, e_mail, birthday, note) 
+                print(user_data)
+            print('-'*119)
 
 
 
