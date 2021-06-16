@@ -31,8 +31,8 @@ class Personal_asisstant:
             consumer.to_show()
         elif command == 'birthday':
             consumer.to_congratulate()
-        elif command == 'farewell':
-            consumer.to_leave()       
+        elif command == 'exit':
+            consumer.exit()       
 
 
     def name_input(self):
@@ -97,8 +97,10 @@ class Personal_asisstant:
                 print('Firstly, add some information')
 
         return inner
-
-
+        
+    def exit(self):
+        print("See ya!")
+        sys.exit(0)  
 
 
 
