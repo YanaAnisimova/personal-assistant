@@ -67,7 +67,7 @@ class Personal_asisstant:
 
 
     def birthday_input(self):
-        self.user_birthday = input('Enter your B-Day: ')
+        self.user_birthday = input('Enter your B-Day (DD.MM.YYYY): ')
         return self.user_birthday
 
 
@@ -77,8 +77,8 @@ class Personal_asisstant:
 
 
     def combine_data(self):
-        combine_data = consumer.name_input() + ',    ' + consumer.phone_number_input() + ', ' +  consumer.email_input() + ', '\
-                +  consumer.birthday_input() + ', ' + consumer.add_note() + ', '+'\n'
+        combine_data = consumer.name_input() + '|    ' + consumer.phone_number_input() + '| ' +  consumer.email_input() + '| '\
+                +  consumer.birthday_input() + '| ' + consumer.add_note() + '\n'
         return combine_data
     
 
