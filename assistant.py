@@ -22,7 +22,7 @@ class Personal_asisstant:
         if command == 'create':
             consumer.to_create()
         elif command == 'search':
-            consumer.to_search() 
+            consumer.to_searche() 
         elif command == 'delete':
             consumer.to_delete()
         elif command == 'edit':
@@ -31,8 +31,6 @@ class Personal_asisstant:
             consumer.to_show()
         elif command == 'birthday':
             consumer.to_congratulate()
-        elif command == 'note':
-            consumer.to_note()
         elif command == 'farewell':
             consumer.to_leave()       
 
@@ -77,7 +75,7 @@ class Personal_asisstant:
 
 
     def combine_data(self):
-        combine_data = consumer.name_input() + '|    ' + consumer.phone_number_input() + '| ' +  consumer.email_input() + '| '\
+        combine_data = consumer.name_input() + '| ' + consumer.phone_number_input() + '| ' +  consumer.email_input() + '| '\
                 +  consumer.birthday_input() + '| ' + consumer.add_note() + '\n'
         return combine_data
     
