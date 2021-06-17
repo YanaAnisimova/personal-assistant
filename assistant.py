@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+from datetime import timedelta, datetime
 
 
 class Personal_asisstant: 
@@ -33,7 +34,7 @@ class Personal_asisstant:
         elif command == 'exit':
             consumer.exit()
 
-    def is_file_empty(self, func):
+    def is_file_empty(self):
         def inner(path):
             try:
                 if os.path.isfile('data//data-file.txt') and os.path.getsize('data//data-file.txt') > 0:
@@ -91,7 +92,12 @@ class Personal_asisstant:
         :param record: (dict) a line from the contact book, the data to be changed.
         :return: (dict) updated entry
         """
-        com_edit_note = input('Сhange or add notes?:  ').strip().casefold()
+        while True:
+            com_edit_note = input('Сhange or add notes?:  ').strip().casefold()
+            if com_edit_note not in ('change', 'add'):
+                print(f'Incorrect, once more please')
+            else:
+                break
         self.user_note = self.add_note().strip()
         if com_edit_note == 'change':
             record['note'] = self.user_note + '\n'
@@ -117,7 +123,7 @@ class Personal_asisstant:
         """
         return self.EDITOR[com_edit]
 
-    def decerialization_data(self):
+    def deserialization_data(self):
         """
         The function reads the contact book data from the file and writes to program as:
         self.data = [{'name': name, 'phone': phone, 'email': email, 'birthday': birthday, 'note': note}, ...]
@@ -134,7 +140,7 @@ class Personal_asisstant:
                     record[key] = value
                 self.data.append(record)
 
-    def cerialization_data(self):
+    def serialization_data(self):
         """
         The function transfers the contact book data from the program to a file.
         :return: None
@@ -143,14 +149,16 @@ class Personal_asisstant:
             for record in self.data:
                 file.write('| '.join(record.values()))
 
-    @is_file_empty
     def to_edit(self):
         """
         The function edits data (name, phone, ...) by the name of the contact. Name, phone, email, birthday, note
         can only be replaced, and notes can be replaced and supplemented.
         :return: None
         """
-        self.decerialization_data()
+        if not os.path.isfile('data//data-file.txt') or os.path.getsize('data//data-file.txt') <= 0:
+            print(f'Firstly, add some information')
+            return None
+        self.deserialization_data()
         self.user_name = input('Enter a name to edit data:  ').strip()
         # checking if name (self.user_name) exists in the book.
         if not any(record['name'].strip().casefold() == self.user_name.casefold() for record in self.data):
@@ -166,15 +174,19 @@ class Personal_asisstant:
                     print(f'Updated contact details with name "{record["name"]}".')
                 except KeyError:
                     print(f'Incorrect, once more please')
-        self.cerialization_data()
+        self.serialization_data()
 
-    @is_file_empty
+
     def to_delete(self):
         """
         Function deletes records by specified name.
         :return: None
         """
-        self.decerialization_data()
+        if not os.path.isfile('data//data-file.txt') or os.path.getsize('data//data-file.txt') <= 0:
+            print(f'Firstly, add some information')
+            return None
+
+        self.deserialization_data()
         self.user_name = input('Enter a name to delete data: ').strip()
 
         # checking if name (self.user_name) exists in the book.
@@ -185,7 +197,7 @@ class Personal_asisstant:
             if record['name'].strip().casefold() == self.user_name.casefold():
                 self.data.remove(record)
                 print(f'The contact named "{record["name"]}" has been deleted.')
-        self.cerialization_data()
+        self.serialization_data()
 
 
     def name_input(self):
@@ -241,6 +253,65 @@ class Personal_asisstant:
     def exit(self):
         print("See ya!")
         sys.exit(0)  
+
+    @is_file_empty
+    def to_congratulate(self):
+        while True:
+            try:
+                n = input('Please enter days left to the needed date: ')
+                if n.isdigit:
+                    break
+            except ValueError:
+                print('Please enter a valid number!')
+        user_list = []
+        user_date = datetime.now() + timedelta(days = int(n))
+        search_pattern = datetime.strftime(user_date, '%d.%m')
+        with open('data//data-file.txt', 'r') as file:
+            users = file.readlines()
+            for user in users:
+                if re.search(search_pattern, re.split(r'\|',user)[3].strip()):
+                    user_data = ', '.join(re.split(r'\|', user))
+                    user_list.append(user_data) 
+        if len(user_list)>0:
+            result = ''.join(user_list)       
+            print(f'Please do not forget to tell them happy birthday!\n{result}')
+        else:
+            print('No congrats on this day!')
+
+    @is_file_empty
+    def to_search(self):
+        key_word = input('Please, enter the key word: ')
+        user_list = []
+        with open('data//data-file.txt', 'r') as file:
+            users = file.readlines()
+            for user in users:
+                if key_word.lower() in user.lower():
+                    user_data = ', '.join(re.split(r'\|', user))
+                    user_list.append(user_data)
+        if len(user_list)>0:
+            result = ''.join(user_list)
+            print(f'Found some users with matching key word "{key_word}":\n{result}')
+        else:
+            print('No matches!')
+
+    @is_file_empty
+    def to_show(self):
+        with open('data//data-file.txt', 'r') as file:
+            users = file.readlines() 
+            print('-'*119)   
+            header = "| {:^5} | {:^15} | {:^15} | {:^25} | {:^15} | {:^25} |".format('#', 'name', 'phone', 'e-mail', 'birthday', 'note') 
+            print(header)
+            print('-'*119)      
+            for user in enumerate(users):
+                count = user[0]
+                name = re.split(r'\|',user[1])[0].strip()
+                phone = re.split(r'\|',user[1])[1].strip()
+                e_mail = re.split(r'\|',user[1])[2].strip()
+                birthday = re.split(r'\|',user[1])[3].strip()
+                note = re.split(r'\|',user[1])[4].strip()
+                user_data = "| {:^5} | {:<15} | {:<15} | {:25} | {:<15} | {:<25} |".format(count, name, phone, e_mail, birthday, note) 
+                print(user_data)
+            print('-'*119)
 
 
 
