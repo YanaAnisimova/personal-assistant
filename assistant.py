@@ -4,6 +4,16 @@ import sys
 from datetime import timedelta, datetime
 
 
+def is_file_empty_decorator(function):
+    def inner(*args):
+        if os.path.isfile('data//data-file.txt') and os.path.getsize('data//data-file.txt') > 0:
+            return function(*args)
+        else:
+            print('Firstly, add some information')
+
+    return inner
+
+
 class Personal_asisstant: 
 
     def __init__(self):
@@ -34,17 +44,17 @@ class Personal_asisstant:
         elif command == 'exit':
             consumer.exit()
 
-    def is_file_empty(self):
-        def inner(path):
-            try:
-                if os.path.isfile('data//data-file.txt') and os.path.getsize('data//data-file.txt') > 0:
-                    return self('data//data-file.txt')
-            except:
-                print('Firstly, add some information')
-            else:
-                print('Firstly, add some information')
-
-        return inner
+    # def is_file_empty(self):
+    #     def inner(path):
+    #         try:
+    #             if os.path.isfile('data//data-file.txt') and os.path.getsize('data//data-file.txt') > 0:
+    #                 return self('data//data-file.txt')
+    #         except:
+    #             print('Firstly, add some information')
+    #         else:
+    #             print('Firstly, add some information')
+    #
+    #     return inner
 
     def to_edit_name(self, record):
         """
@@ -93,11 +103,14 @@ class Personal_asisstant:
         :return: (dict) updated entry
         """
         while True:
-            com_edit_note = input('Сhange or add notes?:  ').strip().casefold()
-            if com_edit_note not in ('change', 'add'):
+            com_edit_note = input('Change, add or delete notes?:  ').strip().casefold()
+            if com_edit_note not in ('change', 'add', 'delete'):
                 print(f'Incorrect, once more please')
             else:
                 break
+        if com_edit_note == 'delete':
+            record['note'] = '\n'
+            return record
         self.user_note = self.add_note().strip()
         if com_edit_note == 'change':
             record['note'] = self.user_note + '\n'
@@ -149,17 +162,16 @@ class Personal_asisstant:
             for record in self.data:
                 file.write('| '.join(record.values()))
 
+    @is_file_empty_decorator
     def to_edit(self):
         """
         The function edits data (name, phone, ...) by the name of the contact. Name, phone, email, birthday, note
         can only be replaced, and notes can be replaced and supplemented.
         :return: None
         """
-        if not os.path.isfile('data//data-file.txt') or os.path.getsize('data//data-file.txt') <= 0:
-            print(f'Firstly, add some information')
-            return None
         self.deserialization_data()
         self.user_name = input('Enter a name to edit data:  ').strip()
+
         # checking if name (self.user_name) exists in the book.
         if not any(record['name'].strip().casefold() == self.user_name.casefold() for record in self.data):
             print(f'Name "{self.user_name}" does not exist in the contact book.')
@@ -176,20 +188,17 @@ class Personal_asisstant:
                     print(f'Incorrect, once more please')
         self.serialization_data()
 
-
+    @is_file_empty_decorator
     def to_delete(self):
         """
         Function deletes records by specified name.
         :return: None
         """
-        if not os.path.isfile('data//data-file.txt') or os.path.getsize('data//data-file.txt') <= 0:
-            print(f'Firstly, add some information')
-            return None
-
         self.deserialization_data()
         self.user_name = input('Enter a name to delete data: ').strip()
 
-        # checking if name (self.user_name) exists in the book.
+        # checking if name (self.user_name) exists in the book. any() - return True, if at least one element
+        # in the sequence True.
         if not any(record['name'].strip().casefold() == self.user_name.casefold() for record in self.data):
             print(f'Name "{self.user_name}" does not exist in the contact book.')
 
