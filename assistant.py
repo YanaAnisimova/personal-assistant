@@ -44,17 +44,17 @@ class Personal_asisstant:
         elif command == 'exit':
             consumer.exit()
 
-    # def is_file_empty(self):
-    #     def inner(path):
-    #         try:
-    #             if os.path.isfile('data//data-file.txt') and os.path.getsize('data//data-file.txt') > 0:
-    #                 return self('data//data-file.txt')
-    #         except:
-    #             print('Firstly, add some information')
-    #         else:
-    #             print('Firstly, add some information')
-    #
-    #     return inner
+    def is_file_empty(self):
+        def inner(path):
+            try:
+                if os.path.isfile('data//data-file.txt') and os.path.getsize('data//data-file.txt') > 0:
+                    return self('data//data-file.txt')
+            except:
+                print('Firstly, add some information')
+            else:
+                print('Firstly, add some information')
+
+        return inner
 
     def to_edit_name(self, record):
         """
