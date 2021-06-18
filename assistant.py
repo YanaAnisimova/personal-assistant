@@ -44,18 +44,6 @@ class Personal_asisstant:
         elif command == 'exit':
             consumer.exit()
 
-    def is_file_empty(self):
-        def inner(path):
-            try:
-                if os.path.isfile('data//data-file.txt') and os.path.getsize('data//data-file.txt') > 0:
-                    return self('data//data-file.txt')
-            except:
-                print('Firstly, add some information')
-            else:
-                print('Firstly, add some information')
-
-        return inner
-
     def to_edit_name(self, record):
         """
         Function updates name.
@@ -210,8 +198,17 @@ class Personal_asisstant:
 
 
     def name_input(self):
-        self.user_name = input('Enter your name: ')
-        return self.user_name
+        self.deserialization_data()
+        while True:
+            try:
+                self.user_name = input('Enter your name: ')       
+                if not any(record['name'].strip() == self.user_name for record in self.data):
+                    return self.user_name
+                else:
+                    print('This name already exists in contact book!')
+            except AttributeError:
+                print('Please try again!')        
+        
 
     def phone_number_input(self):
 
@@ -238,7 +235,14 @@ class Personal_asisstant:
 
 
     def birthday_input(self):
-        self.user_birthday = input('Enter your B-Day (DD.MM.YYYY): ')
+
+        while True:
+            try:
+                self.user_birthday = input('Enter your B-Day (DD.MM.YYYY): ')
+                if datetime.strptime(self.user_birthday, '%d.%m.%Y'):
+                    break
+            except ValueError:
+                print("Incorrect date, try again!")
         return self.user_birthday
 
 
@@ -263,8 +267,34 @@ class Personal_asisstant:
         print("See ya!")
         sys.exit(0)  
 
-    @is_file_empty
+    def print_users(self, users):
+        """
+        Function prints from user list
+        :param user: a list with lines from data-file.txt
+        :return: prints formatted table with user information from list
+        """
+        print('-'*119)   
+        header = "| {:^5} | {:^15} | {:^15} | {:^25} | {:^15} | {:^25} |".format('#', 'name', 'phone', 'e-mail', 'birthday', 'note') 
+        print(header)
+        print('-'*119)  
+        #Getting user data from line    
+        for user in enumerate(users):
+            count = user[0]+1
+            name = re.split(r'\|',user[1])[0].strip()
+            phone = re.split(r'\|',user[1])[1].strip()
+            e_mail = re.split(r'\|',user[1])[2].strip()
+            birthday = re.split(r'\|',user[1])[3].strip()
+            note = re.split(r'\|',user[1])[4].strip()
+            user_data = "| {:^5} | {:<15} | {:<15} | {:25} | {:<15} | {:<25} |".format(count, name, phone, e_mail, birthday, note) 
+            print(user_data)
+        print('-'*119)
+
+    @is_file_empty_decorator
     def to_congratulate(self):
+        """
+        Function prints list of users from user list, whose birthday is in n days from current date
+        """
+        #Validating input data
         while True:
             try:
                 n = input('Please enter days left to the needed date: ')
@@ -273,54 +303,42 @@ class Personal_asisstant:
             except ValueError:
                 print('Please enter a valid number!')
         user_list = []
-        user_date = datetime.now() + timedelta(days = int(n))
+        user_date = datetime.now() + timedelta(days = int(n)) #Getting needed date
         search_pattern = datetime.strftime(user_date, '%d.%m')
         with open('data//data-file.txt', 'r') as file:
-            users = file.readlines()
+            users = file.readlines() #Reading from file
             for user in users:
                 if re.search(search_pattern, re.split(r'\|',user)[3].strip()):
-                    user_data = ', '.join(re.split(r'\|', user))
-                    user_list.append(user_data) 
+                    user_list.append(user) 
         if len(user_list)>0:
-            result = ''.join(user_list)       
-            print(f'Please do not forget to tell them happy birthday!\n{result}')
+            print(f'Please do not forget to tell them happy birthday!\n')
+            self.print_users(user_list)
         else:
             print('No congrats on this day!')
 
-    @is_file_empty
+    @is_file_empty_decorator
     def to_search(self):
+        """
+        Function prints list of users from user list that match some key word
+        """
         key_word = input('Please, enter the key word: ')
         user_list = []
         with open('data//data-file.txt', 'r') as file:
-            users = file.readlines()
+            users = file.readlines() #Reading from file
             for user in users:
-                if key_word.lower() in user.lower():
-                    user_data = ', '.join(re.split(r'\|', user))
-                    user_list.append(user_data)
+                if key_word.lower() in user.lower(): #Searching for matches
+                    user_list.append(user)
         if len(user_list)>0:
-            result = ''.join(user_list)
-            print(f'Found some users with matching key word "{key_word}":\n{result}')
+            print(f'Found some users with matching key word "{key_word}":\n')
+            self.print_users(user_list)
         else:
             print('No matches!')
 
-    @is_file_empty
+    @is_file_empty_decorator
     def to_show(self):
         with open('data//data-file.txt', 'r') as file:
             users = file.readlines() 
-            print('-'*119)   
-            header = "| {:^5} | {:^15} | {:^15} | {:^25} | {:^15} | {:^25} |".format('#', 'name', 'phone', 'e-mail', 'birthday', 'note') 
-            print(header)
-            print('-'*119)      
-            for user in enumerate(users):
-                count = user[0]
-                name = re.split(r'\|',user[1])[0].strip()
-                phone = re.split(r'\|',user[1])[1].strip()
-                e_mail = re.split(r'\|',user[1])[2].strip()
-                birthday = re.split(r'\|',user[1])[3].strip()
-                note = re.split(r'\|',user[1])[4].strip()
-                user_data = "| {:^5} | {:<15} | {:<15} | {:25} | {:<15} | {:<25} |".format(count, name, phone, e_mail, birthday, note) 
-                print(user_data)
-            print('-'*119)
+            self.print_users(users)
 
 
 
