@@ -57,15 +57,14 @@ class Personal_asisstant:
         return record
 
     def help(self):
-        print('_______________________________________')
-        print('Create the contact:              create')
-        print('Search for the contact:          search')
-        print('Delete the сontact:              delete')
-        print('Editing the contact:               edit')
-        print('Show the contact information:      show')
-        print('Show the birthday:             birthday') 
-        print('Exit the programm:                 exit') 
-        print('_______________________________________') 
+        print('Hi, I\'m\' a bot. And I can:')
+        print('<create>   /save contacts with names, addresses, phone numbers, emails and birthdays to the contact book;')
+        print('<birthday> /display a list of contacts who have a birthday after a specified number of days from the current date;')
+        print('<search>   /search for contacts and notes from the contact book;')
+        print('<edit>     /edit entries from the contact book, edit and delete notes;')
+        print('<delete>   /delete entries from the contact book;')
+        print('<show>     /display all contents of the contact book;') 
+        print('<exit>     /exit the program')  
 
 
     def to_edit_phone(self, record):
