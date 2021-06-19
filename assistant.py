@@ -23,7 +23,7 @@ class Personal_asisstant:
         self.user_birthday = ''
         self.user_note = ''
         self.data = []
-        print('Salut!')
+        print('Salut! Enter \'help\' to see the commands')
 
     def requests(self):
 
@@ -41,6 +41,8 @@ class Personal_asisstant:
             consumer.to_show()
         elif command == 'birthday':
             consumer.to_congratulate()
+        elif command == 'help':
+            consumer.help()
         elif command == 'exit':
             consumer.exit()
 
@@ -53,6 +55,18 @@ class Personal_asisstant:
         self.user_name = self.name_input().strip()
         record['name'] = self.user_name
         return record
+
+    def help(self):
+        print('_______________________________________')
+        print('Create the contact:              create')
+        print('Search for the contact:          search')
+        print('Delete the сontact:              delete')
+        print('Editing the contact:               edit')
+        print('Show the contact information:      show')
+        print('Show the birthday:             birthday') 
+        print('Exit the programm:                 exit') 
+        print('_______________________________________') 
+
 
     def to_edit_phone(self, record):
         """
