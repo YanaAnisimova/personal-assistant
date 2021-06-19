@@ -45,6 +45,8 @@ class Personal_asisstant:
             consumer.help()
         elif command == 'exit':
             consumer.exit()
+        else:
+            print('Please try again')
 
     def to_edit_name(self, record):
         """
