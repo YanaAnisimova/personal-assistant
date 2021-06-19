@@ -46,7 +46,7 @@ class Personal_asisstant:
         elif command == 'exit':
             consumer.exit()
         else:
-            print('Please try again')
+            print(f'Command "{command}" does not exist. Please try again')
 
     def to_edit_name(self, record):
         """
@@ -173,22 +173,27 @@ class Personal_asisstant:
         :return: None
         """
         self.deserialization_data()
-        self.user_name = input('Enter a name to edit data:  ').strip()
-
-        # checking if name (self.user_name) exists in the book.
-        if not any(record['name'].strip().casefold() == self.user_name.casefold() for record in self.data):
-            print(f'Name "{self.user_name}" does not exist in the contact book.')
+        while True:
+            # checking if name (self.user_name) exists in the book.
+            self.user_name = input('Enter a name to edit data:  ').strip()
+            if any(record['name'].strip().casefold() == self.user_name.casefold() for record in self.data):
+                break
+            else:
+                print(f'Name "{self.user_name}" does not exist in the contact book.')
         for record in self.data:
             if record['name'].strip().casefold() == self.user_name.casefold():
-                command_edit = input('What edit? (name/phone/email/birthday/note):  ').strip()
-                try:
-                    # by command_edit, the corresponding function is selected, to which 1 record is transferred.
-                    # An updated record is returned.
-                    updated_record = self.get_editor_handler(command_edit)(self, record)
-                    self.data[self.data.index(record)] = updated_record
-                    print(f'Updated contact details with name "{record["name"]}".')
-                except KeyError:
-                    print(f'Incorrect, once more please')
+                while True:
+                    command_edit = input('What edit? (name/phone/email/birthday/note):  ').strip().casefold()
+                    try:
+                        # by command_edit, the corresponding function is selected, to which 1 record is transferred.
+                        # An updated record is returned.
+                        updated_record = self.get_editor_handler(command_edit)(self, record)
+                        self.data[self.data.index(record)] = updated_record
+                        print(f'Updated contact details with name "{record["name"]}".')
+                        break
+                    except KeyError:
+                        print(f'Incorrect, once more please')
+
         self.serialization_data()
 
     @is_file_empty_decorator
@@ -211,26 +216,27 @@ class Personal_asisstant:
                 print(f'The contact named "{record["name"]}" has been deleted.')
         self.serialization_data()
 
-
+    @is_file_empty_decorator
     def name_input(self):
-        self.deserialization_data()
-        while True:
-            try:
-                self.user_name = input('Enter your name: ')       
-                if not any(record['name'].strip() == self.user_name for record in self.data):
-                    return self.user_name
-                else:
-                    print('This name already exists in contact book!')
-            except AttributeError:
-                print('Please try again!')        
-                
+
+        with open('data//data-file.txt', 'r') as file:
+            users = file.readlines()
+            while True:
+                try:
+                    self.user_name = input('Enter your name: ')
+                    if not any(re.split('| ', user)[0].strip().casefold() == self.user_name.casefold() for user in users):
+                        return self.user_name
+                    else:
+                        print('This name already exists in contact book!')
+                except AttributeError:
+                    print('Please try again!')
 
     def phone_number_input(self):
 
         while True:
             try:
                 self.user_phone_number = input('Enter your phone number: ')
-                if self.user_phone_number == (re.search(r'\+?\d?\d?\d?\d{2}\d{7}', self.user_phone_number)).group():
+                if self.user_phone_number == (re.search(r'\b\+?\d?\d?\d?\d{2}\d{7}\b', self.user_phone_number)).group():
                     break
             except AttributeError:
                 print('Incorrect, once more please')
