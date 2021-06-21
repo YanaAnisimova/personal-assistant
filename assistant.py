@@ -119,7 +119,7 @@ class Personal_asisstant:
             record['note'] = self.user_note + '\n'
             return record
         elif com_edit_note == 'add':
-            record['note'] = record['note'].replace('\n', '') + self.user_note + '\n'
+            record['note'] = record['note'].replace('\n', ' ') + self.user_note + '\n'
             return record
         else:
             print(f'Incorrect, once more please')
@@ -216,7 +216,7 @@ class Personal_asisstant:
                 print(f'The contact named "{record["name"]}" has been deleted.')
         self.serialization_data()
 
-    @is_file_empty_decorator
+
     def name_input(self):
 
         with open('data//data-file.txt', 'r') as file:
@@ -224,7 +224,7 @@ class Personal_asisstant:
             while True:
                 try:
                     self.user_name = input('Enter your name: ')
-                    if not any(re.split('| ', user)[0].strip().casefold() == self.user_name.casefold() for user in users):
+                    if not any(re.split('\| ', user)[0].strip().casefold() == self.user_name.casefold() for user in users):
                         return self.user_name
                     else:
                         print('This name already exists in contact book!')
@@ -236,11 +236,12 @@ class Personal_asisstant:
         while True:
             try:
                 self.user_phone_number = input('Enter your phone number: ')
-                if self.user_phone_number == (re.search(r'\b\+?\d?\d?\d?\d{2}\d{7}\b', self.user_phone_number)).group():
-                    break
+                if self.user_phone_number == (re.search(r'\+?\d?\d?\d?\d{2}\d{7}', self.user_phone_number)).group():
+                    return self.user_phone_number
+                else:
+                    print('Incorrect, once more please')
             except AttributeError:
                 print('Incorrect, once more please')
-        return self.user_phone_number
 
                 
     def email_input(self):
