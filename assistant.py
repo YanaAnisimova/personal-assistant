@@ -216,7 +216,6 @@ class Personal_asisstant:
                 print(f'The contact named "{record["name"]}" has been deleted.')
         self.serialization_data()
 
-
     def name_input(self):
 
         with open('data//data-file.txt', 'r') as file:
@@ -243,6 +242,7 @@ class Personal_asisstant:
             except AttributeError:
                 print('Incorrect, once more please')
 
+
                 
     def email_input(self):
 
@@ -250,10 +250,11 @@ class Personal_asisstant:
             try:
                 self.user_email = input('Enter your email: ')
                 if self.user_email == (re.search(r'[a-zA-Z0-9]+[._]?[a-z0-9]+[@]\w+[.]\w{2,3}', self.user_email)).group():
-                    break
+                    return self.user_email
+                else:
+                    print('Incorrect, once more please')
             except AttributeError:
                 print('Incorrect, once more please')
-        return self.user_email
 
 
     def birthday_input(self):
