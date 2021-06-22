@@ -10,11 +10,11 @@ Variant_2:
 1. Write command in console: 'pip install https://github.com/47codemonkey/personal-assistant'
 2. Write command 'assistant'
 
-Hi, I'm a bot. And I can 
-<create>     save contacts with names, phone numbers, emails and birthdays to the contact book
-<birthday>   display a list of contacts who have a birthday after a specified number of days from the current date
-<search>     search for contacts and notes from the contact book
-<edit>       edit entries from the contact book, edit and delete notes
-<delete>     delete entries from the contact book
-<show>       display all contents of the contact book 
-<exit>       exit the program
+Hi, I'm a bot. And I can: 
+create_____save contacts with names, phone numbers, emails and birthdays to the contact book
+birthday___display a list of contacts who have a birthday after a specified number of days from the current date
+search_____search for contacts and notes from the contact book
+edit_______edit entries from the contact book, edit and delete notes
+delete_____delete entries from the contact book
+show_______display all contents of the contact book 
+exit_______exit the program
