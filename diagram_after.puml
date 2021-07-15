@@ -1,8 +1,8 @@
 @startuml
 class ConsoleController {
     COMMANDS
-    model
-    view
+    model: Personal_asisstant
+    view: ConsoleView
     __init__()
     add_note()
     combine_data()
@@ -108,33 +108,33 @@ The <b>number of classes per diagram</b> has been exceeded
  - The number of diagrams you can save is limited in the free plan to 2
 
 endheader
-class ViewInterface {
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
-    upgrade to pro()
+interface ViewInterface {
+    describes_commands()
+    displays_key_error()
+    displays_matches()
+    displays_request_to_wis_happy_birthday()
+    displays_see_ya()
+    displays_users()
+    reports_no_birthdays()
+    reports_no_matches()
+    reports_the_deletion_of_a_contact()
+    reports_the_existence_of_name_in_database()
+    reports_the_not_exist_of_name_in_database()
+    reports_the_updated_of_a_contact()
+    reports_what_edit()
+    requests_command()
+    requests_command_edit_note()
+    requests_days_left_to_the_birthday()
+    requests_enter_birthday()
+    requests_enter_email()
+    requests_enter_name()
+    requests_enter_name_to_changes_data()
+    requests_enter_phone()
+    requests_enter_the_note()
+    requests_input_number()
+    requests_key_word_for_search()
+    requests_re_entry_of_the_data()
+    start_view()
 }
 
 ABC <|- ViewInterface
