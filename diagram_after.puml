@@ -1,6 +1,6 @@
 @startuml
 class ConsoleController {
-    COMMANDS
+    COMMANDS: dict
     model: Personal_asisstant
     view: ConsoleView
     __init__()
