@@ -1,0 +1,47 @@
+@startuml
+class Personal_asisstant {
+    EDITOR: dict
+    data: list
+    user_birthday: str
+    user_email: str
+    user_name: str
+    user_note: str
+    user_phone_number: str
+    __init__()
+    add_note(): str
+    birthday_input(): str
+    combine_data(): str
+    deserialization_data()
+    email_input(): str
+    exit()
+    get_editor_handler(com_edit: str): function
+    help()
+    name_input(): str
+    phone_number_input(): str
+    print_users(users: list)
+    requests()
+    serialization_data()
+    to_congratulate()
+    to_create()
+    to_delete()
+    to_edit()
+    to_edit_birthday(record: dict): dict
+    to_edit_email(record: dict): dict
+    to_edit_name(record: dict): dict
+    to_edit_note(record: dict): dict
+    to_edit_phone(record: dict): dict
+    to_search()
+    to_show()
+}
+
+class assistant_py <<module>> << (M,orchid) >> #DarkSeaGreen {
+    consumer
+    ---
+    is_file_empty_decorator()
+    main()
+}
+
+assistant_py .. Personal_asisstant : contains >
+assistant_py --> Personal_asisstant : uses
+hide empty members
+@enduml
