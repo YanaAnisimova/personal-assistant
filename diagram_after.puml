@@ -1,0 +1,185 @@
+@startuml
+class ConsoleController {
+    COMMANDS
+    model
+    view
+    __init__()
+    add_note()
+    combine_data()
+    describes_commands()
+    ends_the_program()
+    get_command_handler()
+    get_updated_birthday()
+    get_updated_data()
+    get_updated_email()
+    get_updated_name()
+    get_updated_note()
+    get_updated_phone()
+    gets_the_name_to_make_changes_to_the_data()
+    input_birthday()
+    input_email()
+    input_name()
+    input_phone_number()
+    organize_to_delete()
+    organize_to_edit()
+    organizes_the_search()
+    organizes_to_congratulate()
+    requests()
+    start()
+    to_get_all()
+}
+
+class assist_controller_py <<module>> << (M,orchid) >> #DarkSeaGreen {
+    controller
+    model
+    view
+}
+
+assist_controller_py .. ConsoleController : contains >
+assist_controller_py --> ConsoleView : uses
+assist_controller_py --> Personal_asisstant : uses
+assist_controller_py --> ConsoleController : uses
+
+center header
+<size:18><font color=red>FREE PLAN LIMIT EXCEEDED</font>
+<size:16><font color=red>Some names may have been redacted</font>
+<size:15>Please subscribe to the affordable Pro plan
+<size:15>to remove this limitation.
+
+The <b>number of classes per diagram</b> has been exceeded
+ - The number of your classes per diagram is limited in the free plan to 3
+ - The number of other classes being referred to per diagram in the free plan is unlimited
+ - The number of files/modules per diagram is limited in the free plan to 4
+ - The number of diagrams you can save is limited in the free plan to 2
+
+endheader
+class Personal_asisstant {
+    EDITOR
+    data
+    user_birthday
+    user_email
+    user_name
+    user_note
+    user_phone_number
+    __init__()
+    check_birthday()
+    check_email()
+    check_name()
+    check_phone_number()
+    checking_presence_of_name_in_the_database()
+    combine_data()
+    deserialization_data()
+    get_editor_handler()
+    gets_data_by_name()
+    note_add()
+    note_delete()
+    note_replaces()
+    replaces_birthday()
+    replaces_email()
+    replaces_name()
+    replaces_phone()
+    serialization_data()
+    to_congratulate()
+    to_create()
+    to_create_empty_file()
+    to_delete()
+    to_get_all()
+    to_search()
+    updates_the_database()
+}
+
+class assist_model_py <<module>> << (M,orchid) >> #DarkSeaGreen {
+    ---
+    is_file_empty_decorator()
+}
+
+assist_model_py .. Personal_asisstant : contains >
+
+center header
+<size:18><font color=red>FREE PLAN LIMIT EXCEEDED</font>
+<size:16><font color=red>Some names may have been redacted</font>
+<size:15>Please subscribe to the affordable Pro plan
+<size:15>to remove this limitation.
+
+The <b>number of classes per diagram</b> has been exceeded
+ - The number of your classes per diagram is limited in the free plan to 3
+ - The number of other classes being referred to per diagram in the free plan is unlimited
+ - The number of files/modules per diagram is limited in the free plan to 4
+ - The number of diagrams you can save is limited in the free plan to 2
+
+endheader
+class ViewInterface {
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+    upgrade to pro()
+}
+
+ABC <|- ViewInterface
+
+class ConsoleView {
+    describes_commands()
+    displays_key_error()
+    displays_matches()
+    displays_request_to_wis_happy_birthday()
+    displays_see_ya()
+    displays_users()
+    reports_no_birthdays()
+    reports_no_matches()
+    reports_the_deletion_of_a_contact()
+    reports_the_existence_of_name_in_database()
+    reports_the_not_exist_of_name_in_database()
+    reports_the_updated_of_a_contact()
+    reports_what_edit()
+    requests_command()
+    requests_command_edit_note()
+    requests_days_left_to_the_birthday()
+    requests_enter_birthday()
+    requests_enter_email()
+    requests_enter_name()
+    requests_enter_name_to_changes_data()
+    requests_enter_phone()
+    requests_enter_the_note()
+    requests_input_number()
+    requests_key_word_for_search()
+    requests_re_entry_of_the_data()
+    start_view()
+}
+
+ViewInterface <|- ConsoleView
+class assist_view_py <<module>> << (M,orchid) >> #DarkSeaGreen {
+}
+
+assist_view_py .. ViewInterface : contains >
+assist_view_py .. ConsoleView : contains >
+
+center header
+
+
+endheader
+
+hide empty members
+
+@enduml
